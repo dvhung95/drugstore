@@ -1,0 +1,22 @@
+* {}
+
+button#search {
+    margin-bottom: 20px;
+}
+
+.title a.btn.btn-success {
+    margin-bottom: 20px;
+}
+
+ul.nav.navbar-nav.navbar-right a {
+    color: red;
+}
+
+h1 {
+    color: #222;
+}
+
+.container {
+    padding-left: 2px;
+    padding-right: 2px;
+}
