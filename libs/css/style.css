@@ -1,5 +1,64 @@
 * {}
 
+/* page introduction */
+.company-infor {
+    padding-left: 32px;
+}
+/* end page introduction */
+
+a.delete {
+    margin: 14px;
+    color: red;
+}
+
+.total-price>span {
+    color: green;
+    font-size: 18px;
+}
+
+.order-information>p {
+    color: green;
+    font-size: 18px;
+}
+
+.drug-information>p {
+    color: green;
+    font-size: 18px;
+}
+
+.row.title {
+    color: green;
+    font-size: 31px;
+    margin: 22px auto;
+}
+
+p.thank {
+    color: rgb(13, 0, 255);
+}
+
+p.working-day {
+    font-weight: bold;
+}
+
+p.working-time {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.tuvan-body {
+    text-align: center;
+}
+
+.tuvan-body>p.phone {
+    color: red;
+    font-size: 18px;
+}
+div.error {
+	display:block;
+    width:100%;
+	color: red;
+}
+
 label.i1 {
     font-weight: 300;
 }
@@ -10,12 +69,13 @@ label.i1 {
 }
 
 .i2 button.btn.btn-warning {
-    margin-top: 9px;
+    margin-top: 0px;
 }
 
-.col-md-12.order {
+.order {
     font-size: 18px;
-    margin-top: 58px;
+    margin-top: 30px;
+    padding: 0px;
 }
 
 .form-cart input[type="number"] {
@@ -42,7 +102,7 @@ label.i1 {
 }
 
 ul.nav.navbar-nav.navbar-right {
-    width: 210px;
+    width: 260px;
 }
 
 .fb-comments.fb_iframe_widget {
@@ -110,7 +170,7 @@ p.company {
 }
 
 .contact i {
-    color: rgb(3, 5, 7);
+    color: rgb(252, 252, 252);
 }
 .nav li a{
 	color: #fff;
@@ -162,6 +222,15 @@ button.btn-primary{
 	font-weight: bold;
 	margin-bottom: 15px;
 }
+
+.product-title a {
+    color: #027f38;
+}
+
+.product-title p {
+    color: #333;
+    font-weight: normal;
+}
 .more a{
 	color: #027f38;
 }
@@ -185,6 +254,11 @@ button.btn-primary{
 .news h3{
 	margin-left: 15px;
 }
+.detail .price {
+    color: #027f38;
+    font-size: 21px;
+    margin-top: 15px;
+}
 .detail h3{
 	background: none;
 	color: #741010;
@@ -199,10 +273,42 @@ button.btn-primary{
 
 }
 .detail-img img{
-	margin: 30px 0;
 	width: 250px;
 	height: auto;
 }
 .bread{
 	margin: 30px;
 }
+
+
+/*question and answer*/
+.qa{
+	margin-bottom: 25px;
+}
+.q{
+	background: #fff5f5;	
+	color:#741010;
+	border: 1px solid #741010;
+	padding: 15px 20px;
+	cursor: pointer;
+}
+.a{
+	background: #fff;
+	color: #027f38;
+	padding: 15px 20px;
+	display: none;
+}
+.mes input, .mes textarea{
+	margin-bottom: 15px;
+}
+.mes button{
+	float: right;
+}
+.show{
+	display: block !important;
+	transition: all 0.3;
+}
+.q i{
+	float: right;
+	font-size: 20px;
+}	

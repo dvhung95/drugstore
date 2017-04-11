@@ -3,7 +3,7 @@
 class UserPageView {
     private $postsModel;
     private $drugsModel;
-    private $usersModel;
+    private $customersModel;
     private $feedbackModel;
 	
     /**
@@ -35,10 +35,7 @@ class UserPageView {
      * Outputs posts or drugs that matched search query
      */
     public function output_search(){
-        $search_key = $_POST['keyword'];
-        include 'user/iheader.html.php';
-        (array)$drugs = $this->drugsModel->searchDrug($search_key);
-        (array)$posts = $this->postsModel->searchPost($search_key);
+        include 'user/iheader.html.php';    
         include 'user/search.html.php';
         include 'user/ifooter.html.php';
     }
@@ -47,9 +44,7 @@ class UserPageView {
      * Outputs all drugs
      */
     public function output_list_drug(){
-        $id = $_GET['drugid'];
         include 'user/iheader.html.php';
-        (array)$drugs = $this->drugsModel->getAllDrugs();
         include 'user/show-drug.php';
         include 'user/ifooter.html.php';
     }
@@ -58,10 +53,7 @@ class UserPageView {
      * Outputs drug that matches id
      */
     public function output_drug_detail(){
-        $id = $_GET['drugid'];
         include 'user/iheader.html.php';
-        (array)$drug_detail = $this->drugsModel->getDrug($id);
-        (array)$drug_similar = $this->drugsModel->getSameDrugs($drug_detail[0]->drug_category_id, $drug_detail[0]->drug_id); 
         include 'user/drug-detail.php';
         include 'user/ifooter.html.php';
     }
@@ -71,7 +63,6 @@ class UserPageView {
      */
     public function output_list_post(){
         include 'user/iheader.html.php';
-        (array)$posts = $this->postsModel->getAllPosts();
         include 'user/show-post.php';
         include 'user/ifooter.html.php';
     }
@@ -81,13 +72,90 @@ class UserPageView {
      */
     public function output_post_detail(){
         include 'user/iheader.html.php';
-        $id = $_GET['postid'];
-        (array)$post_detail = $this->postsModel->searchPost($id);
-        (array)$post_similar = $this->postsModel->getSamePosts($post_detail[0]->post_category_id, $post_detail[0]->post_id); 
         include 'user/post-detail.php';
         include 'user/ifooter.html.php';
     }
-	
+
+    /**
+     * Outputs user that matches username
+     */
+    public function output_user_detail(){
+        include 'user/iheader.html.php';
+        include 'user/customer/show.php';
+        include 'user/ifooter.html.php';
+    }
+
+    /**
+     * Outputs user that matches username
+     */
+    public function output_user_edit(){
+        include 'user/iheader.html.php';
+        include 'user/customer/edit.php';
+        include 'user/ifooter.html.php';
+    }
+
+    /**
+     * Outputs feedback page
+     */
+    public function output_feedback(){
+        include 'user/iheader.html.php';
+        include 'user/feedback.php';
+        include 'user/ifooter.html.php';
+    }
+
+    /**
+     * Outputs introduction page
+     */
+    public function output_introduce(){
+        include 'user/iheader.html.php';
+        include 'user/introduce.php';
+        include 'user/ifooter.html.php';
+    }
+
+    /**
+     * Outputs order page
+     */
+    public function output_order_add(){
+        include 'user/iheader.html.php';
+        include 'user/order/add.php';
+        include 'user/ifooter.html.php';
+    }
+
+    /**
+     * Outputs order page
+     */
+    public function output_order_shipping(){
+        include 'user/order/calShippingPrice.php';
+    }
+
+    /**
+     * Outputs all messages of customer
+     */
+
+    public function output_list_message(){
+        include 'user/iheader.html.php';
+        include 'user/message/show-message.php';
+        include 'user/ifooter.html.php';
+    }
+
+    /**
+     * Outputs message that matches id
+     */
+    public function output_message_detail(){
+        include 'user/iheader.html.php';
+        include 'user/message/message-detail.php';
+        include 'user/ifooter.html.php';
+    }
+
+    /**
+     * Outputs message that matches id
+     */
+    public function output_message_delete(){
+        include 'user/iheader.html.php';
+        include 'user/message/delete.php';
+        include 'user/ifooter.html.php';
+    }
+
 
 }
 

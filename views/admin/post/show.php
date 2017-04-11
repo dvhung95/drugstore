@@ -11,10 +11,6 @@
 				</div>
 			</div>
 		</div> <!-- end title -->
-
-		<?php
-			$count='0'; 
-		?>
 		
 		<div class="table">
 			<div class="row">
@@ -23,7 +19,6 @@
 					    <thead>
 					    	<tr>
 						      	<th>#</th>
-						      	<th> ID </th>
 						        <th>Tiêu đề</th>
 						        <th>Hình ảnh </th>
 						      	<th>Nhóm bài đăng</th>
@@ -32,12 +27,12 @@
 					      	</tr>
 					    </thead>
 					    <tbody>
-					    	<?php foreach ($posts as $post) {
-					    		$count++;
+					    	<?php 
+					    		$count=1; 
+					    		foreach ($posts as $post) {
 					    		?>
 					    		<tr>
 					    			<td> <?= $count ?></td>
-					    			<td> <?php echo substr($post->post_id, 0, 100);?> </td>
 					    			<td>  <?= $post->post_title ?></td>
 					    			<td> <img width="60" heght="60" src="<?= $post->image;?>"/> </td>
 					    			<td>  <?= $post->post_category_id ?></td>   			
@@ -50,6 +45,7 @@
 						        	</td>
 					    		</tr>
 					    		<?php 
+					    		$count++;
 					    	}
 					    	?>     
 					    </tbody>

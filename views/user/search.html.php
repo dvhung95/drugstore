@@ -1,10 +1,14 @@
+<?php
+  $search_key = $_POST['keyword'];
+  (array)$drugs = $this->drugsModel->searchDrug($search_key);
+  (array)$posts = $this->postsModel->searchPost($search_key);
+?>
+  <!-- breadcrumb -->
   <div class="bread">
     <a href="index.php">Trang chủ</a> >
-    Tìm kiếm
-  </div>
-  
+    Tìm kiếm > <?= $search_key?>
+  </div><!--  end breadcrumb -->
   <h1 class="text-center page-title">Tìm kiếm</h1>
-
   <!-- Drugs -->
   <?php if(!empty($drugs)) { ?>
     <div class="col-sm-8 col-xs-12 news">
@@ -27,7 +31,7 @@
     <?php } ?>
   </div>
   <?php } ?>
-  <!-- end news -->
+  <!-- end drugs -->
 
   <?php if(empty($drugs)&& empty($posts) ){ ?>
     <div class="no-result text-center col-sm-8 col-xs-12">Không có kết quả nào cho từ khóa
@@ -35,30 +39,30 @@
     </div>
   <?php  } ?>
   <!-- right aside -->
-  <?php include('right-bar.php'); ?>
+  <?php include('right-bar.php'); ?> <!-- end right aside -->
 
-  <!-- News -->
+  <!-- Posts -->
   <?php if(!empty($posts)) { ?>
     <div class="col-sm-8 col-xs-12 news">
       <h3>Tin tức</h3>
       <?php foreach ($posts as $value) { ?>
       <!-- news row -->
-      <div class="news-row row">
-        <div class="col-sm-3 col-xs-6 news-img">
+      <div class="product row">
+        <div class="col-sm-3 col-xs-6 product-img">
           <img src="<?=$value->image ?>" alt="">
         </div>
         <div class="col-sm-9 col-xs-6 product-title">
-          <?=substr($value->post_title, 0, 100) ?>
+          <a href="index.php?postid=<?=$value->post_id?>"><?=substr($value->post_title, 0 ,100)?></a>
+          <p> <?=substr($value->content, 0, 300)." ..."?> </p> 
+          <div class="col-sm-12 col-xs-6 more text-right">
+            <a href="index.php?postid=<?=$value->post_id?>">Xem thêm</a>
+          </div>
         </div>
-        <div class="col-sm-9 col-xs-6 product-body">
-          <?=substr($value->content, 0, 300)." ..." ?>
-        </div>
-        <div class="col-sm-9 col-xs-6 more text-right"><a href="index.php?postid=<?=$value->post_id ?>">Xem thêm</a></div>
       </div>
       <!-- end news row -->
     <?php } ?>
   </div>
   <?php } ?>
-  <!-- end news -->
+  <!-- end Posts -->
 
 

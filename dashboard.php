@@ -4,33 +4,7 @@ session_start();
 
 // the link includes all manadatory 'includes'
 require_once 'configs/includes.php';
-
-// Get URL and find out to what page we should be directing
 $page = $_GET['page'];
-/*// get show parameter when viewing single articles
-$drug_id = $_GET['drugid'];
-$post_id = $_GET['postid'];
-
-// display single drug
-if (!empty($drug_id)) {
-
-    $postsModel = new PostsModel();
-    $customersModel = new CustomersModel();
-    $drugsModel = new DrugsModel();
-    $controller = new UserPageController($postsModel, $drugsModel, $customersModel);
-    $view = new UserPageView( $controller, $postsModel, $drugsModel, $customersModel );
-    echo $view->output_drug_detail();
-
-} else if (!empty($post_id)) {
-
-    $postsModel = new PostsModel();
-    $customersModel = new CustomersModel();
-    $drugsModel = new DrugsModel();
-    $controller = new UserPageController($postsModel, $drugsModel, $customersModel);
-    $view = new UserPageView( $controller, $postsModel, $drugsModel, $customersModel );
-    echo $view->output_post_detail();
-
-} else*/ 
 if (!empty($page)){
 	
      // based on page create the relevant Model, View and Controller
@@ -104,14 +78,265 @@ if (!empty($page)){
             }
             break;
 
-        case "search":
-            $postsModel = new PostsModel();
-            $customersModel = new CustomersModel();
-            $drugsModel = new DrugsModel();
-            $controller = new UserPageController($postsModel, $drugsModel, $customersModel);
-            $view = new UserPageView( $controller, $postsModel, $drugsModel, $customersModel );
-            echo $view->output_search();
+        case "drug_category":
+            $drugCategory = new Drug_cateModel();
+            $controller = new DrugCategoryController($drugCategory);
+            $view = new DrugCategoryView($controller, $drugCategory);
+            $action = $_GET['action'];
+            switch ($action) {
+                case 'show':
+                    echo $view->output_show();
+                    break;
+                case 'add':
+                    if (isset($_GET['status'])){
+                        $controller->addDrugCategory();
+                    } 
+                    echo $view->output_add();
+                    break;
+                case 'edit':
+                    if (isset($_GET['status'])){
+                        $controller->editDrugCategory();
+                    } 
+                    echo $view->output_edit();
+                    break;
+                 case 'delete':
+                    echo $view->output_delete();
+                    break;
+                default:
+                    break;
+            }
             break;
+
+        case "customer":
+            $customersModel = new CustomersModel();
+            $controller = new CustomerController($customersModel);
+            $view = new CustomerView($controller, $customersModel);
+            $action = $_GET['action'];
+            switch ($action) {
+                case 'show':
+                    echo $view->output_admin_show();
+                    break;
+                case 'delete':
+                    echo $view->output_delete();
+                    break;
+                default:
+                    break;
+            }
+            break;
+
+        case "drug_category":
+            $drugCategory = new Drug_cateModel();
+            $controller = new DrugCategoryController($drugCategory);
+            $view = new DrugCategoryView($controller, $drugCategory);
+            $action = $_GET['action'];
+            switch ($action) {
+                case 'show':
+                    echo $view->output_show();
+                    break;
+                case 'add':
+                    if (isset($_GET['status'])){
+                        $controller->addDrugCategory();
+                    } 
+                    echo $view->output_add();
+                    break;
+                case 'edit':
+                    if (isset($_GET['status'])){
+                        $controller->editDrugCategory();
+                    } 
+                    echo $view->output_edit();
+                    break;
+                 case 'delete':
+                    echo $view->output_delete();
+                    break;
+                default:
+                    break;
+            }
+            break;
+
+        case "post_category":
+            $postCategory = new PostCategoryModel();
+            $controller = new PostCategoryController($postCategory);
+            $view = new PostCategoryView($controller, $postCategory);
+            $action = $_GET['action'];
+            switch ($action) {
+                case 'show':
+                    echo $view->output_show();
+                    break;
+                case 'add':
+                    if (isset($_GET['status'])){
+                        $controller->addPostCategory();
+                    } 
+                    echo $view->output_add();
+                    break;
+                case 'edit':
+                    if (isset($_GET['status'])){
+                        $controller->editPostCategory();
+                    } 
+                    echo $view->output_edit();
+                    break;
+                 case 'delete':
+                    echo $view->output_delete();
+                    break;
+                default:
+                    break;
+            }
+            break;
+
+        case "admin":
+            $adminModel = new AdministratorModel();
+            $controller = new AdministratorController($adminModel);
+            $view = new AdministratorView($controller, $adminModel);
+            $action = $_GET['action'];
+            switch ($action) {
+                case 'show':
+                    echo $view->output_show();
+                    break;
+                case 'add':
+                    if (isset($_GET['status'])){
+                        $controller->addAdministrator();
+                    } 
+                    echo $view->output_add();
+                    break;
+                case 'edit':
+                    if (isset($_GET['status'])){
+                        $controller->editAdministrator();
+                    } 
+                    echo $view->output_edit();
+                    break;
+                 case 'delete':
+                    echo $view->output_delete();
+                    break;
+                case 'check': 
+                    echo $view->output_check();
+                    break;
+                default:
+                    break;
+            }
+            break;
+
+        case "feedback":
+            $fbModel = new FeedbackModel();
+            $controller = new FeedbackController($fbModel);
+            $view = new FeedbackView($controller, $fbModel);
+            $action = $_GET['action'];
+            switch ($action) {
+                case 'show':
+                    echo $view->output_show();
+                    break;
+                case 'replied':
+                    echo $view->output_replied();
+                    break;
+                 case 'delete':
+                    echo $view->output_delete();
+                    break;
+                default:
+                    break;
+            }
+            break;
+
+        case "shipper":
+            $model = new ShipperModel();
+            $controller = new ShipperController($model);
+            $view = new ShipperView($controller,  $model);
+            $action = $_GET['action'];
+            switch ($action) {
+                case 'show':
+                    echo $view->output_show();
+                    break;
+                case 'add':
+                    if (isset($_GET['status'])){
+                        $controller->addShipper();
+                    } 
+                    echo $view->output_add();
+                    break;
+                case 'edit':
+                    if (isset($_GET['status'])){
+                        $controller->editShipper();
+                    } 
+                    echo $view->output_edit();
+                    break;
+                 case 'delete':
+                    echo $view->output_delete();
+                    break;
+                default:
+                    break;
+            }
+            break;
+
+        case "shippingprice":
+            $shippingpriceModel = new ShippingPriceModel();
+            $controller = new ShippingPriceController($shippingpriceModel);
+            $view = new ShippingPriceView($controller, $shippingpriceModel);
+            $action = $_GET['action'];
+            switch ($action) {
+                case 'show':
+                    echo $view->output_show();
+                    break;
+                case 'add':
+                    if (isset($_GET['status'])){
+                        $controller->addShippingPrice();
+                    } 
+                    echo $view->output_add();
+                    break;
+                case 'edit':
+                    if (isset($_GET['status'])){
+                        $controller->editShippingPrice();
+                    } 
+                    echo $view->output_edit();
+                    break;
+                 case 'delete':
+                    echo $view->output_delete();
+                    break;
+                default:
+                    break;
+            }
+            break;
+
+            case "message":
+                $mModel = new MessageModel();
+                $controller = new MessageController($mModel);
+                $view = new MessageView($controller, $mModel);
+                $action = $_GET['action'];
+                switch ($action) {
+                    case 'show':
+                        echo $view->output_show();
+                        break;
+                    case 'add':
+                        if (isset($_GET['status'])){
+                            $controller->addMessage();
+                        } 
+                        echo $view->output_add();
+                        break;
+                    case 'delete':
+                        echo $view->output_delete();
+                        break;
+                    default:
+                        break;
+                }
+                break;
+
+            case "order":
+                $model = new OrderModel();
+                $controller = new OrderController($model);
+                $view = new OrderView($controller, $model);
+                $action = $_GET['action'];
+                switch ($action) {
+                    case 'show':
+                        echo $view->output_show();
+                        break;
+                    case 'edit':
+                        if (isset($_GET['status'])){
+                            $controller->editOrder();
+                        } 
+                        echo $view->output_edit();
+                        break;
+                    case 'delete':
+                        echo $view->output_delete();
+                        break;
+                    default:
+                        break;
+                }
+                break;
 
 
     }

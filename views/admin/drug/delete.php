@@ -1,6 +1,7 @@
 <?php
   ob_start();
     $drugModel = new DrugsModel();
+    $drugModel->deleteImage($id);
     $drugModel->deleteDrug($id);
     echo '<script language="javascript">';
     echo 'alert("Thuốc đã bị xóa.");';

@@ -38,10 +38,6 @@ class RegisterModel {
             $valid=false;
             echo "<div id='error'> Tên đăng nhập không được chứa ký tự đặc biệt. </div>";
         }
-        if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $name)){
-            $valid=false;
-            echo "<div id='error'> Tên không được chứa ký tự đặc biệt. </div>";
-        }
         if( $user_password != $repeated_user_password ) {
             $valid=false;
             echo "<div id='error'> Mật khẩu không khớp </div>";
@@ -61,9 +57,7 @@ class RegisterModel {
         }
         if ($valid == true){
         	$this->cusModel->addCustomer($user_name, $user_password, $name, $date_of_birth, $address, $phone_number);
-            if(!empty($image)){
-                $this->cusModel->addImage($user_name, $image);
-            }
+            $this->cusModel->addImage($user_name, $image);
             echo '<script language="javascript">';
             echo 'alert("Đăng ký thành công");';
             echo "window.location.href = 'index.php?page=login';";

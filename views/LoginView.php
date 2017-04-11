@@ -24,5 +24,12 @@ class LoginView {
 		include 'user/ifooter.html.php';
 	}
 
+    /**
+     * Outputs login page
+     */
+    public function output_check(){
+        include 'user/checkExistAccount.php';
+    }
+
 }
 ?>
