@@ -16,18 +16,11 @@ class Drug_cateModel {
      */
     public function addDrug_cate($category_name, $description) {
         global $pdo;
-        $sql = "INSERT INTO drug_category (category_name, description) values (?,?)";
-            
+        $sql = "INSERT INTO drug_category (category_name, description) values (?,?)";        
         $query = $pdo->prepare($sql);
         $query->bindValue(1, $category_name);
         $query->bindValue(2, $description);
-        try { 
-            $query->execute();
-        } catch (Exception $e){
-            echo "Không thể nhập dữ liệu vào cơ sở dữ liệu";
-            return false;
-        }
-        return true;
+        $query->execute();
     }
 
 	/**
@@ -43,7 +36,7 @@ class Drug_cateModel {
         foreach($rows as $row){
             $cate = new Drug_cate(
                 $row['drug_category_id']
-                ,$row['drug_name']
+                ,$row['category_name']
                 ,$row['description']
             );
             $cates[] = $cate;
@@ -81,19 +74,19 @@ class Drug_cateModel {
      */
     public function searchDrug_cate( $key ){
         global $pdo;
-        $query = $pdo->prepare("SELECT * FROM drug_category WHERE category_name=%:key% or drug_category_id=:key");
-        $query->bindValue(':key', $key);
+        $query = $pdo->prepare("SELECT * FROM drug_category WHERE drug_category_id=?");
+        $query->bindValue(1, $key);
         $query->execute();
         $rows = $query->fetchAll();
         foreach($rows as $row){
-            $drug_cate = new Drug(
+            $drug_cate = new Drug_cate(
                   $row['drug_category_id']
                 ,$row['category_name']
                 ,$row['description']
             );
-            $drug_cates[] = $drug_cate;
+            return $drug_cate;
         }
-        return $drug_cates;
+        return null;
     }
 }
  ?>

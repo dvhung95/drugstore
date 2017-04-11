@@ -30,7 +30,7 @@
                 var marker = new google.maps.Marker({
                   position: myLatLng,
                   map: map,
-                  title: 'Hello World!'
+                  title: 'Hăng Long Shpt'
                 });
               }
             </script>
@@ -45,9 +45,6 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-6 col-xs-12 social text-center">
-            <i class="fa fa-facebook fa-2x" aria-hidden="true"></i>
-            <i class="fa fa-google-plus fa-2x" aria-hidden="true"></i>
-            <i class="fa fa-twitter fa-2x" aria-hidden="true"></i>
           </div>
           <div class="col-sm-6 col-xs-12 design text-center">
             Thiết kế bởi 4c13 Hanu Team

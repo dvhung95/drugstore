@@ -1,27 +1,24 @@
 <?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 include_once 'Drug.php';
 class DrugsModel {
-  
-	
-    
-    
     public function __construct(){
     }
 
-
-    
-  
+    /**
+     * Add a new drug into db
+     * @param int $drug_category_id
+     * @param string $drug_name
+     * @param string $description
+     * @param string $guide_to_use
+     * @param string $more_information
+     * @param float $price
+     * @access public
+     */
     public function addDrug( $drug_category_id, $drug_name,$description,$ingredient,$guide_to_use,$more_information, $price) {
         global $pdo;
         $sql = "INSERT INTO drugs (drug_category_id, drug_name, 
-            description, ingredient, guide_to_use,more_information, $price) 
+            description, ingredient, guide_to_use,more_information, price) 
             values (?,?,?,?,?,?,?)";
         $query = $pdo->prepare($sql);
         $query->bindValue(1, $drug_category_id);
@@ -31,13 +28,44 @@ class DrugsModel {
         $query->bindValue(5, $guide_to_use);
         $query->bindValue(6, $more_information);
         $query->bindValue(7, $price);
-        try { 
-            $query->execute();
-        } catch (Exception $e){
-            echo "Không thể nhập dữ liệu vào cơ sở dữ liệu";
-        }
+        $query->execute();
     }
 
+    /**
+     * Add image of drug into db
+     * @param int $drug_name
+     * @param file $file
+     * @access public
+     */
+    public function addImage($drug_name, $file ){ 
+        // remove space
+        $file['name'] = str_replace(" ", "",$file['name']);
+        //upload directory
+        $upload_dir = 'images/drugs/'.$file['name'];
+        //upload file to new location
+        move_uploaded_file($file['tmp_name'], $upload_dir);
+        //prepare link to save to database entry
+        $link = "http://localhost:81/drug-store/images/drugs/".$file['name'];
+        //update database
+        global $pdo;
+        $sql = "UPDATE drugs SET image=? WHERE drug_name=?";
+        $query = $pdo->prepare($sql);
+        $query->bindValue(1,$link);
+        $query->bindValue(2,$drug_name);
+        $query->execute();
+    }
+
+    /**
+     * Edit drug based on drug id 
+     * @param int $drug_id
+     * @param int $drug_category_id
+     * @param string $drug_name
+     * @param string $description
+     * @param string $guide_to_use
+     * @param string $more_informatio
+     * @param float $price
+     * @access public
+     */
     public function editDrug( $drug_id, $drug_category_id, $drug_name, $description, 
         $ingredient, $guide_to_use, $more_information, $price ) {
         global $pdo;
@@ -52,17 +80,12 @@ class DrugsModel {
         $query->bindValue(6,$more_information);
         $query->bindValue(7,$price);
         $query->bindValue(8,$drug_id);
-    
-        try {
-            $query->execute();
-        } catch (Exception $e) {
-            echo "Không thể chỉnh sửa thuốc.";
-        }
+        $query->execute();
     }
-	
+
     /**
-     * Gets detail drugs by id
-     * @return array $drugs
+     * Gets detail of drug by id
+     * @return Drug $drug
      * @access public
      */
     public function getDrug($drug_id){
@@ -115,10 +138,39 @@ class DrugsModel {
         }
         return $drugs;
     }
-	
-	
     
-    
+	
+    /**
+     * Deletes image based on customer id 
+     * @param int $drug_id
+     * @access public
+     */
+    public function deleteImage($id){
+        global $pdo;
+        $query = $pdo->prepare("SELECT image FROM drugs where drug_id=?");
+        $query->bindValue(1, $id);
+        $query->execute();
+        $rows = $query->fetchAll();
+        if (!empty($rows)){
+            foreach($rows as $row){
+                $root = $_SERVER['DOCUMENT_ROOT'];
+                $file = explode("/",$row['image']);
+                $dir = $root."/drug-store/images/drugs/";
+                if(file_exists($dir."".$file[6])){
+                    unlink($dir."".$file[6]);   
+                }
+                break;
+            }
+        }
+    }
+
+
+	
+    /**
+     * Deletes drug based on customer id 
+     * @param int $drug_id
+     * @access public
+     */
     public function deleteDrug( $drug_id ) {
         global $pdo;
         $query = $pdo->prepare("DELETE FROM drugs WHERE drug_id=?");
@@ -129,8 +181,6 @@ class DrugsModel {
             echo "Không thể xóa thuốc.";
         }
     }
-	
-    
 	
 
     /**
@@ -216,26 +266,6 @@ class DrugsModel {
         }
         return $drugs;
     }
-
-   
-    public function addImage($drug_name, $file ){ 
-        // remove space
-        $file['name'] = str_replace(" ", "",$file['name']);
-        //upload directory
-        $upload_dir = 'images/drugs/'.$file['name'];
-        //upload file to new location
-        move_uploaded_file($file['tmp_name'], $upload_dir);
-        //prepare link to save to database entry
-        $link = "http://localhost:81/drugstore/images/drugs/".$file['name'];
-        //update database
-        global $pdo;
-        $sql = "UPDATE drugs SET image=? WHERE drug_name=?";
-        $query = $pdo->prepare($sql);
-        $query->bindValue(1,$link);
-        $query->bindValue(2,$drug_name);
-        $query->execute();
-    }
-    
 
     
 }

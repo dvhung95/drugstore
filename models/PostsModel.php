@@ -30,6 +30,31 @@ class PostsModel {
         $query->execute();
     }
 
+    /**
+     * Upload img to folder and database
+     * @param FILE $file
+     * @param String $title
+     * @return boolean 
+     * @access public
+     */
+    public function addImage($title, $file ){ 
+        // remove space
+        $file['name'] = str_replace(" ", "",$file['name']);
+        //upload directory
+        $upload_dir = 'images/posts/'.$file['name'];
+        //upload file to new location
+        move_uploaded_file($file['tmp_name'], $upload_dir);
+        //prepare link to save to database entry
+        $link = "http://localhost:81/drug-store/images/posts/".$file['name'];
+        //update database
+        global $pdo;
+        $sql = "UPDATE posts SET image=? WHERE post_title=?";
+        $query = $pdo->prepare($sql);
+        $query->bindValue(1,$link);
+        $query->bindValue(2,$title);
+        $query->execute();
+    }
+
 	/**
 	 * Gets all posts from the posts table
 	 * @return array $posts
@@ -99,6 +124,30 @@ class PostsModel {
         }
     }
 	
+    /**
+     * Deletes image based on post id 
+     * @param int $id
+     * @access public
+     */
+    public function deleteImage($id){
+        global $pdo;
+        $query = $pdo->prepare("SELECT image FROM posts where post_id=?");
+        $query->bindValue(1, $id);
+        $query->execute();
+        $rows = $query->fetchAll();
+        if (!empty($rows)){
+            foreach($rows as $row){
+                $root = $_SERVER['DOCUMENT_ROOT'];
+                $dir = $root."/drug-store/images/posts/";
+                $file = explode("/",$row['image']);
+                if(file_exists($dir."".$file[6])){
+                    unlink($dir."".$file[6]);
+                }
+                break;
+            }
+        }
+    }
+
 	/**
 	 * Edits post based on post id 
      * @param int $post_id
@@ -151,42 +200,6 @@ class PostsModel {
         return $posts;
     }
     
-	/**
-	 * Search post whose session parameters title or id match
-	 * @param string $key
-	 * @return array $posts
-	 * @access public
-	 */
-    /*public function searchPost( $key, $category ){
-        global $pdo;
-        $query ="";
-        if(empty($category)){
-            $sql = "SELECT * FROM posts WHERE post_title=%?% or post_id=%?%";
-            $query = $pdo->prepare($sql);
-            $query->bindValue(1, $key);
-            $query->bindValue(2, $key);
-        } else {
-            $sql = "select post_id, posts.post_category_id, post_title, content, image from posts INNER JOIN post_category where posts.post_category_id = post_category.post_category_id and post_title=%?% or post_id=%?% and $posts.post_category_id=?;";
-            $query = $pdo->prepare($sql);
-            $query->bindValue(1, $key);
-            $query->bindValue(2, $key);
-            $query->bindValue(3, $category);
-        }
-        $query->execute();
-        $rows = $query->fetchAll();
-        foreach($rows as $row){
-            $post = new Post(
-                 $row['post_id']
-                ,$row['post_category_id']
-                ,$row['post_title']
-                ,$row['content']
-                ,$row['image']
-            );
-            $posts[] = $post;
-        }
-        return $posts;
-    }*/
-
     /**
      * Search post whose session parameters id match
      * @param string $id
@@ -212,29 +225,6 @@ class PostsModel {
         return null;
     }
 
-    /**
-     * Upload img to folder and database
-     * @param FILE $file
-     * @param String $title
-     * @return boolean 
-     * @access public
-     */
-    public function addImage($title, $file ){ 
-        // remove space
-        $file['name'] = str_replace(" ", "",$file['name']);
-        //upload directory
-        $upload_dir = 'images/posts/'.$file['name'];
-        //upload file to new location
-        move_uploaded_file($file['tmp_name'], $upload_dir);
-        //prepare link to save to database entry
-        $link = "http://localhost:81/drug-store/images/posts/".$file['name'];
-        //update database
-        global $pdo;
-        $sql = "UPDATE posts SET image=? WHERE post_title=?";
-        $query = $pdo->prepare($sql);
-        $query->bindValue(1,$link);
-        $query->bindValue(2,$title);
-        $query->execute();
-    }
+
 }
  ?>

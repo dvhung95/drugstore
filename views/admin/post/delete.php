@@ -1,6 +1,7 @@
 <?php
   ob_start();
     $pModel = new PostsModel();
+    $pModel->deleteImage($id);
     $pModel->deletePost($id);
     echo '<script language="javascript">';
     echo 'alert("Bài đăng đã bị xóa.");';

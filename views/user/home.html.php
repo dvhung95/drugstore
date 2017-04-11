@@ -45,7 +45,7 @@
           $c1 = 0; 
           foreach ($postsModel->getAllPosts() as $key => $value){
             $c1++;
-            if($c1 < 5){?>
+            if($c1 < 4){?>
               <div class="col-sm-3 col-xs-12 news-item text-center">
                 <img src="<?=$value->image ?>" alt="">
                 <p class="news-title"><a href="index.php?postid=<?=$value->post_id ?>"><?=substr($value->post_title, 0, 100)." ..." ?></a></p>

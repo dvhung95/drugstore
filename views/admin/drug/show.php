@@ -3,34 +3,36 @@
 		<div class="title">
 			<div class="row">	
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-					<h1> <a href="dashbroad.php?page=drug&action=show"> Quản lý thuốc </a> </h1> <hr>
+					<h1> <a href="dashboard.php?page=drug&action=show"> Quản lý thuốc </a> </h1> <hr>
 					<ol class="breadcrumb">
-                                            <li><a href="#">Trang chủ</a></li>
-                                          <li><a href="dashboard.php?page=drug&action=show">Quản lý thuốc</a></li>
+                        <li><a href="#">Trang chủ</a></li>
+                        <li><a href="dashboard.php?page=drug&action=show">Quản lý thuốc </a></li>
 					</ol>	
-                                        <a href="dashboard.php?page=drug&action=add" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Thêm sản phẩm</a>			
+                        <a href="dashboard.php?page=drug&action=add" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Thêm thuốc mới</a>	
 				</div>
 			</div>
 		</div> <!-- end title -->
+
+		<?php
+			$count=1; 
+		?>
 
 		<div class="table">
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<table class="table table-bordered"> 
 					    <thead>
-					    	<tr>
-						      	
-						        <th>Mã số thuốc</th>
-						        
+					    	<tr>	      	
+						        <th>#</th>
 						        <th>Nhóm Thuốc</th>
-						         <th>Tên thuốc</th>
-						         <th>mô tả</th>
+					         	<th>Tên thuốc</th>
+					         	<th>mô tả</th>
 						        <th>Thành phần</th>
-                                                        <th>Hướng dẫn</th>
-                                                        <th>Thông tin thêm</th>
-                                                      	<th> Giá </th>
-                                                        <th>Hình ảnh</th>
-                                                         <th>Quản lý</th>
+                                <th>Hướng dẫn</th>
+                                <th>Thông tin thêm</th>
+                              	<th> Giá </th>
+                                <th>Hình ảnh</th>
+                             	<th>Quản lý</th>
 					      	</tr>
 					    </thead>
 					    <tbody>
@@ -38,7 +40,7 @@
 
 					    		?>
 					    		<tr>
-					    			<td>  <?= $drug->drug_id ?></td>
+					    			<td>  <?= $count ?></td>
 					    			<td>  <?= $drug->drug_category_id ?></td>
 					    			<td>  <?= $drug->drug_name ?></td>
 					    			<td>  <?php echo substr($drug->description, 0, 300); echo '...'?></td>  			
@@ -55,6 +57,7 @@
 						        	</td>
 					    		</tr>
 					    		<?php 
+					    		$count++;
 					    	}
 					    	?>     
                                               

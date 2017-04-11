@@ -19,8 +19,7 @@ class PostCategoryModel {
      */
     public function addPostCategory( $category_name, $description) {
         global $pdo;
-        $sql = "INSERT INTO post_category ($category_name, $description) 
-            values (?,?)";
+        $sql = "INSERT INTO post_category(category_name,description) values (?,?)";
         $query = $pdo->prepare($sql);
         $query->bindValue(1, $category_name);
         $query->bindValue(2, $description);
@@ -28,9 +27,7 @@ class PostCategoryModel {
             $query->execute();
         } catch (Exception $e){
             echo "Không thể nhập dữ liệu vào cơ sở dữ liệu";
-            return false;
         }
-        return true;
     }
 
 
@@ -51,6 +48,31 @@ class PostCategoryModel {
             }
         }
         return $names;
+    }
+
+    /**
+     * Gets post category by id
+     * @return PostCategory $postCategory
+     * @access public
+     */
+    public function searchPostCategory($id){
+        global $pdo;
+        $query = $pdo->prepare("SELECT * FROM post_category where post_category_id=?");
+        $query->bindValue(1,$id);
+        $query->execute();
+        $rows = $query->fetchAll();
+        $postCategories = array();
+        if (!empty($rows)){
+            foreach($rows as $row){
+                $postCategory = new PostCategory(
+                    $row['post_category_id']
+                    ,$row['category_name']
+                    ,$row['description']
+                );
+                return $postCategory;
+            }
+        }
+        return null;
     }
 
 	/**
@@ -90,9 +112,7 @@ class PostCategoryModel {
             $query->execute();
         } catch (Exception $e){
             echo "Không thể xóa bài nhóm.";
-            return false;
         }
-        return true;
     }
 	
 	/**
@@ -102,17 +122,18 @@ class PostCategoryModel {
      * @param string $description
 	 * @access public
 	 */
-    public function editPost($post_category_id, $category_name, $description) {
+    public function editPostCategory($post_category_id, $category_name, $description) {
         global $pdo;
-        $sql = "UPDATE posts SET $category_name=?, $description=? WHERE $post_category_id=?";
+        $sql = "UPDATE post_category SET category_name=?, description=? WHERE post_category_id=?";
         $query = $pdo->prepare($sql);
+        $query->bindValue(1, $category_name);
+        $query->bindValue(2, $description);
+        $query->bindValue(3, $post_category_id);
         try {
-            $query->execute(array($post_category_id, $category_name, $description));
+            $query->execute();
         } catch (Exception $e){
             echo "Không thể thay đổi thông tin nhóm bài đăng.";
-            return false;
         }
-        return true;
     }
 }
  ?>
